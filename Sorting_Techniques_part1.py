@@ -48,36 +48,37 @@ def insertion_sort(arr):
         arr[insert_index] = current_value
 
 
+if __name__ == "__main__":
+    
+    sizes = [30000, 2500, 5000]
+    #sizes = [10000, 25000, 50000, 100000]
 
-sizes = [30000, 2500, 5000]
-#sizes = [10000, 25000, 50000, 100000]
+    for size in sizes:
+        print(f"\nSorting an array of size {size}...")
 
-for size in sizes:
-    print(f"\nSorting an array of size {size}...")
+        original_arr = generate_random_array(size)
 
-    original_arr = generate_random_array(size)
+        bubble_arr = original_arr.copy()
+        selection_arr = original_arr.copy()
+        insertion_arr = original_arr.copy()
 
-    bubble_arr = original_arr.copy()
-    selection_arr = original_arr.copy()
-    insertion_arr = original_arr.copy()
+        # Bubble Sort
+        start_time = time.time()
+        bubble_sort(bubble_arr)
+        end_time = time.time()
+        duration = (end_time - start_time) * 1000
+        print(f"Running time for Bubble Sort is {duration:.2f} ms")
 
-    # Bubble Sort
-    start_time = time.time()
-    bubble_sort(bubble_arr)
-    end_time = time.time()
-    duration = (end_time - start_time) * 1000
-    print(f"Running time for Bubble Sort is {duration:.2f} ms")
+        # Selection Sort
+        start_time = time.time()
+        selection_sort(selection_arr)
+        end_time = time.time()
+        duration = (end_time - start_time) * 1000
+        print(f"Running time for Selection Sort is {duration:.2f} ms")
 
-    # Selection Sort
-    start_time = time.time()
-    selection_sort(selection_arr)
-    end_time = time.time()
-    duration = (end_time - start_time) * 1000
-    print(f"Running time for Selection Sort is {duration:.2f} ms")
-
-    # Insertion Sort
-    start_time = time.time()
-    insertion_sort(insertion_arr)
-    end_time = time.time()
-    duration = (end_time - start_time) * 1000
-    print(f"Running time for Insertion Sort is {duration:.2f} ms")
+        # Insertion Sort
+        start_time = time.time()
+        insertion_sort(insertion_arr)
+        end_time = time.time()
+        duration = (end_time - start_time) * 1000
+        print(f"Running time for Insertion Sort is {duration:.2f} ms")
