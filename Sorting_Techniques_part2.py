@@ -69,6 +69,22 @@ def quicksort(array, low=0, high=None):
         quicksort(array, low, pivot_index - 1)
         quicksort(array, pivot_index + 1, high)
 
+def kth_smallest(array, k, low=0, high=None):
+    if high is None:
+        high = len(array) - 1
+
+    if low <= high:
+        pivot_index = partition(array, low, high)
+
+        if pivot_index == k - 1:
+            return array[pivot_index]
+        elif pivot_index > k - 1:
+            return kth_smallest(array, k, low, pivot_index - 1)
+        else:
+            return kth_smallest(array, k, pivot_index + 1, high)
+
+    return None
+
 def heap_sort(arr):
     
     n = len(arr)
@@ -120,21 +136,21 @@ if __name__ == "__main__":
 
         # Bubble Sort
         start_time = time.time()
-        #bubble_sort(bubble_arr)
+        bubble_sort(bubble_arr)
         end_time = time.time()
         duration = (end_time - start_time) * 1000
         print(f"Running time for Bubble Sort is {duration:.2f} ms")
 
         # Selection Sort
         start_time = time.time()
-        #selection_sort(selection_arr)
+        selection_sort(selection_arr)
         end_time = time.time()
         duration = (end_time - start_time) * 1000
         print(f"Running time for Selection Sort is {duration:.2f} ms")
 
         # Insertion Sort
         start_time = time.time()
-        #insertion_sort(insertion_arr)
+        insertion_sort(insertion_arr)
         end_time = time.time()
         duration = (end_time - start_time) * 1000
         print(f"Running time for Insertion Sort is {duration:.2f} ms")
@@ -166,4 +182,13 @@ if __name__ == "__main__":
         end_time = time.time()
         duration = (end_time - start_time) * 1000
         print(f"Running time for hyprid merge Sort is {duration:.2f} ms")
+
+    # Kth Smallest Element using partition (QuickSelect)
+    print("\n--- Find Kth Smallest Element ---")
+    example_arr = [3, 41, 16, 25, 63, 52, 40]
+    k = 3
+    arr_copy = example_arr.copy()
+    result = kth_smallest(arr_copy, k)
+    print(f"Array: {example_arr}")
+    print(f"{k}rd smallest Element is {result}")
         
