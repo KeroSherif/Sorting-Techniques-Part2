@@ -1,3 +1,6 @@
+from Sorting_Techniques_part1 import selection_sort
+
+
 def hybrid_merge_sort(arr, threshold):
 
     # Check if the partition size is small enough to use Selection Sort
