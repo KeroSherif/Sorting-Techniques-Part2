@@ -7,6 +7,8 @@ def generate_random_array(size):
 
 def hybrid_merge_sort(arr, threshold):
 
+    if len(arr) <= 1: 
+        return arr
     # Check if the partition size is small enough to use Selection Sort
     if len(arr) <= threshold:
         selection_sort(arr)  # Call your external selection_sort function
@@ -60,21 +62,31 @@ def partition(array, low, high):
     array[i + 1], array[high] = array[high], array[i + 1]
     return i + 1
 
+def randomized_partition(array, low, high):
+    pivot_index = random.randint(low, high)
+    array[pivot_index], array[high] = array[high], array[pivot_index]
+    return partition(array, low, high)
+
 def quicksort(array, low=0, high=None):
     if high is None:
         high = len(array) - 1
 
     if low < high:
-        pivot_index = partition(array, low, high)
+        pivot_index =randomized_partition(array, low, high)
         quicksort(array, low, pivot_index - 1)
         quicksort(array, pivot_index + 1, high)
 
 def kth_smallest(array, k, low=0, high=None):
     if high is None:
         high = len(array) - 1
-
+        
+    # validate k once (only for the initial call)
+    if low == 0 and high == len(array) - 1:
+        if not (1 <= k <= len(array)):
+            raise ValueError(f"k must be between 1 and {len(array)}")
+        
     if low <= high:
-        pivot_index = partition(array, low, high)
+        pivot_index = randomized_partition(array, low, high)
 
         if pivot_index == k - 1:
             return array[pivot_index]
@@ -157,7 +169,7 @@ if __name__ == "__main__":
         
         #Merge sort
         start_time = time.time()
-        merge_sort(merge_arr)
+        merge_sorted=merge_sort(merge_arr)
         end_time = time.time()
         duration = (end_time - start_time) * 1000
         print(f"Running time for merge Sort is {duration:.2f} ms")
