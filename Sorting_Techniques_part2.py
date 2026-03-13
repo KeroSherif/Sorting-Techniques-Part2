@@ -1,11 +1,16 @@
-from Sorting_Techniques_part1 import selection_sort
+import time
+import random
+from Sorting_Techniques_part1 import selection_sort,bubble_sort,insertion_sort
 
+def generate_random_array(size):
+    return [random.randint(1, 100000) for _ in range(size)]
 
 def hybrid_merge_sort(arr, threshold):
 
     # Check if the partition size is small enough to use Selection Sort
     if len(arr) <= threshold:
-        return selection_sort(arr)  # Call your external selection_sort function
+        selection_sort(arr)  # Call your external selection_sort function
+        return arr
 
     # Traditional Merge Sort: Divide the array into two halves
     mid = len(arr) // 2
@@ -22,7 +27,7 @@ def merge(left, right):
 
     # Compare elements and build the sorted result list
     while i < len(left) and j < len(right):
-        if left[i] < right[j]:
+        if left[i] <= right[j]:
             result.append(left[i])
             i += 1
         else:
@@ -32,8 +37,18 @@ def merge(left, right):
     # Cleanup: Add any remaining elements from either list
     result.extend(left[i:])
     result.extend(right[j:])
-    
     return result
+
+
+def merge_sort(arr):
+    if len(arr) <= 1:
+        return arr
+    mid = len(arr) // 2
+    left = merge_sort(arr[:mid])
+    right = merge_sort(arr[mid:])
+    return merge(left, right)
+
+
 def heap_sort(arr):
     
     n = len(arr)
@@ -65,8 +80,62 @@ def heapify_down(arr,n,i):
         arr[i],arr[largest]=arr[largest],arr[i]    
         heapify_down(arr,n,largest)
         
-a=[10,3,4,2,1]
+if __name__ == "__main__":
+    
+    sizes = [30000, 2500, 5000]
+    #sizes = [10000, 25000, 50000, 100000]
 
-heap_sort(a)
-print(a)
-  
+    for size in sizes:
+        print(f"\nSorting an array of size {size}...")
+
+        original_arr = generate_random_array(size)
+
+        bubble_arr = original_arr.copy()
+        selection_arr = original_arr.copy()
+        insertion_arr = original_arr.copy()
+        heap_arr=original_arr.copy()
+        merge_arr=original_arr.copy()
+        hybrid_merge_arr=original_arr.copy()
+
+        # Bubble Sort
+        start_time = time.time()
+        #bubble_sort(bubble_arr)
+        end_time = time.time()
+        duration = (end_time - start_time) * 1000
+        print(f"Running time for Bubble Sort is {duration:.2f} ms")
+
+        # Selection Sort
+        start_time = time.time()
+        #selection_sort(selection_arr)
+        end_time = time.time()
+        duration = (end_time - start_time) * 1000
+        print(f"Running time for Selection Sort is {duration:.2f} ms")
+
+        # Insertion Sort
+        start_time = time.time()
+        #insertion_sort(insertion_arr)
+        end_time = time.time()
+        duration = (end_time - start_time) * 1000
+        print(f"Running time for Insertion Sort is {duration:.2f} ms")
+        
+        #heap sort
+        start_time = time.time()
+        heap_sort(heap_arr)
+        end_time = time.time()
+        duration = (end_time - start_time) * 1000
+        print(f"Running time for heap Sort is {duration:.2f} ms")
+        
+        #Merge sort
+        start_time = time.time()
+        merge_sort(merge_arr)
+        end_time = time.time()
+        duration = (end_time - start_time) * 1000
+        print(f"Running time for merge Sort is {duration:.2f} ms")
+        
+        #Hyprid Merge sort
+        start_time = time.time()
+        hybrid_sorted = hybrid_merge_sort(hybrid_merge_arr, threshold=32)
+        end_time = time.time()
+        duration = (end_time - start_time) * 1000
+        print(f"Running time for hyprid merge Sort is {duration:.2f} ms")
+        
